@@ -22,10 +22,25 @@ current = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Button" type="Button" parent="CanvasLayer"]
-margin_right = 92.0
-margin_bottom = 20.0
-text = "Geser Kanan"
+[node name="SpotA" type="Button" parent="CanvasLayer"]
+margin_top = 1.0
+margin_right = 98.0
+margin_bottom = 21.0
+text = "Ambil Mobil1"
+
+[node name="PullCar" type="Button" parent="CanvasLayer"]
+margin_left = 111.0
+margin_top = 1.0
+margin_right = 171.0
+margin_bottom = 21.0
+text = "Pull Car"
+
+[node name="PushPlate" type="Button" parent="CanvasLayer"]
+margin_left = 180.0
+margin_top = 1.0
+margin_right = 278.0
+margin_bottom = 21.0
+text = "Bring Plate In"
 
 [node name="Objek" type="Spatial" parent="."]
 
@@ -44,7 +59,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.6272, -17.4698, 16.3677 )
 mesh = ExtResource( 9 )
 skeleton = NodePath("../..")
 
-[node name="alasmobil" type="MeshInstance" parent="Objek"]
+[node name="alasmobil1" type="MeshInstance" parent="Objek"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.6272, -17.4698, 16.3677 )
 mesh = ExtResource( 6 )
 skeleton = NodePath("../..")
@@ -54,7 +69,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.6272, -17.4698, 16.3677 )
 mesh = ExtResource( 7 )
 skeleton = NodePath("../..")
 
-[node name="mobil" type="MeshInstance" parent="Objek"]
+[node name="mobil1" type="MeshInstance" parent="Objek"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.6272, -17.4698, 16.3677 )
 mesh = ExtResource( 5 )
 skeleton = NodePath("../..")
@@ -64,4 +79,5 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.6272, -17.4698, 16.3677 )
 mesh = ExtResource( 8 )
 skeleton = NodePath("../..")
 
-[connection signal="pressed" from="CanvasLayer/Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="CanvasLayer/SpotA" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="CanvasLayer/PushPlate" to="." method="_on_PushPlate_pressed"]
