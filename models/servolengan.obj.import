@@ -1,0 +1,20 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/servolengan.obj-01d7d4558992bf3b944e9135b818be63.mesh"
+
+[deps]
+
+files=[ "res://.import/servolengan.obj-01d7d4558992bf3b944e9135b818be63.mesh" ]
+
+source_file="res://models/servolengan.obj"
+dest_files=[ "res://.import/servolengan.obj-01d7d4558992bf3b944e9135b818be63.mesh", "res://.import/servolengan.obj-01d7d4558992bf3b944e9135b818be63.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+octahedral_compression=true
+optimize_mesh_flags=4286
