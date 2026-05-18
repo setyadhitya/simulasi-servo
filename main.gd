@@ -13,19 +13,23 @@ var servo_naik
 var servo_kanan
 var servo_turun
 var servo_turunpenuh
+var servo_naikpenuh
 
 var updown_awal
 var updown_naik
 var updown_turun
 var updown_turunpenuh
+var updown_naikpenuh
 
 var alas_awal1
 var alas_kanan1
+var alas_kiri1
 var alas_turunpenuh1
 var alas_naik1
 var alas_turun1
 var alas_keluar1
 var alas_masuk1
+var alas_naikpenuh1
 
 var mobil_awal1
 var mobil_kanan1
@@ -41,7 +45,7 @@ func _ready():
 	updown_awal = updown.translation
 	alas_awal1 = alas1.translation
 	mobil_awal1 = alas1.translation
-	
+
 	# 1. Geser kiri
 	servo_kiri = servo_awal + Vector3(0, 0, -11)
 
@@ -61,24 +65,29 @@ func _ready():
 	updown_turun = updown_awal
 	alas_turun1 = alas_awal1 + Vector3(0, 0, 11)
 	mobil_turun1 = mobil_awal1 + Vector3(0, 0, 11)
-	
+
 	# 5. Turun penuh ke dasar
 	servo_turunpenuh = servo_awal + Vector3(0, -14, 0)
 	updown_turunpenuh = updown_awal + Vector3(0, -14, 0)
 	alas_turunpenuh1 = alas_awal1 + Vector3(0, -13.7, 11)
 	mobil_turunpenuh1 = mobil_awal1 + Vector3(0, -13.7, 11)
-	
+
 	# 6. Mobil keluar
 	alas_keluar1 = alas_turunpenuh1 + Vector3(-14, 0, 0)
 	mobil_keluar1 = mobil_turunpenuh1 + Vector3(-14, 0, 0)
-	
-	# 6. Masukan Alas
+
+	# 7. Masukan Alas
 	alas_masuk1 = alas_keluar1 + Vector3(14, 0, 0)
+	alas_naikpenuh1 = alas_masuk1 + Vector3(0, 14, 0)
+	servo_naikpenuh = servo_turunpenuh + Vector3(0, 13.7, 0)
+	updown_naikpenuh = updown_turunpenuh + Vector3(0, 13.7, 0)
+	
+	
 
 
 
 func _on_Button_pressed():
-
+		
 	if busy:
 		return
 
@@ -92,14 +101,14 @@ func _on_Button_pressed():
 	# =========================
 
 	tween.interpolate_property(
-		servo,
-		"translation",
-		servo_awal,
-		servo_kiri,
-		1.5,
-		Tween.TRANS_SINE,
-		Tween.EASE_IN_OUT,
-		0
+	servo,
+	"translation",
+	servo_awal,
+	servo_kiri,
+	1.5,
+	Tween.TRANS_SINE,
+	Tween.EASE_IN_OUT,
+	0
 	)
 
 	# =========================
@@ -107,47 +116,47 @@ func _on_Button_pressed():
 	# =========================
 
 	tween.interpolate_property(
-		servo,
-		"translation",
-		servo_kiri,
-		servo_naik,
-		0.5,
-		Tween.TRANS_SINE,
-		Tween.EASE_IN_OUT,
-		1.5
+	servo,
+	"translation",
+	servo_kiri,
+	servo_naik,
+	0.5,
+	Tween.TRANS_SINE,
+	Tween.EASE_IN_OUT,
+	1.5
 	)
-	
+
 	tween.interpolate_property(
-		updown,
-		"translation",
-		updown_awal,
-		updown_naik,
-		0.5,
-		Tween.TRANS_SINE,
-		Tween.EASE_IN_OUT,
-		1.5
+	updown,
+	"translation",
+	updown_awal,
+	updown_naik,
+	0.5,
+	Tween.TRANS_SINE,
+	Tween.EASE_IN_OUT,
+	1.5
 	)
-	
+
 	tween.interpolate_property(
-		alas1,
-		"translation",
-		alas_awal1,
-		alas_naik1,
-		0.5,
-		Tween.TRANS_SINE,
-		Tween.EASE_IN_OUT,
-		1.5
+	alas1,
+	"translation",
+	alas_awal1,
+	alas_naik1,
+	0.5,
+	Tween.TRANS_SINE,
+	Tween.EASE_IN_OUT,
+	1.5
 	)
-	
+
 	tween.interpolate_property(
-		mobil1,
-		"translation",
-		mobil_awal1,
-		mobil_naik1,
-		0.5,
-		Tween.TRANS_SINE,
-		Tween.EASE_IN_OUT,
-		1.5
+	mobil1,
+	"translation",
+	mobil_awal1,
+	mobil_naik1,
+	0.5,
+	Tween.TRANS_SINE,
+	Tween.EASE_IN_OUT,
+	1.5
 	)
 
 	# =========================
@@ -155,36 +164,36 @@ func _on_Button_pressed():
 	# =========================
 
 	tween.interpolate_property(
-		servo,
-		"translation",
-		servo_naik,
-		servo_kanan,
-		1.5,
-		Tween.TRANS_SINE,
-		Tween.EASE_IN_OUT,
-		2.0
+	servo,
+	"translation",
+	servo_naik,
+	servo_kanan,
+	1.5,
+	Tween.TRANS_SINE,
+	Tween.EASE_IN_OUT,
+	2.0
 	)
-	
+
 	tween.interpolate_property(
-		alas1,
-		"translation",
-		alas_naik1,
-		alas_kanan1,
-		1.5,
-		Tween.TRANS_SINE,
-		Tween.EASE_IN_OUT,
-		2.0
+	alas1,
+	"translation",
+	alas_naik1,
+	alas_kanan1,
+	1.5,
+	Tween.TRANS_SINE,
+	Tween.EASE_IN_OUT,
+	2.0
 	)
-	
+
 	tween.interpolate_property(
-		mobil1,
-		"translation",
-		mobil_naik1,
-		mobil_kanan1,
-		1.5,
-		Tween.TRANS_SINE,
-		Tween.EASE_IN_OUT,
-		2.0
+	mobil1,
+	"translation",
+	mobil_naik1,
+	mobil_kanan1,
+	1.5,
+	Tween.TRANS_SINE,
+	Tween.EASE_IN_OUT,
+	2.0
 	)
 
 	# =========================
@@ -192,121 +201,121 @@ func _on_Button_pressed():
 	# =========================
 
 	tween.interpolate_property(
-		servo,
-		"translation",
-		servo_kanan,
-		servo_turun,
-		0.5,
-		Tween.TRANS_SINE,
-		Tween.EASE_IN_OUT,
-		3.5
+	servo,
+	"translation",
+	servo_kanan,
+	servo_turun,
+	0.5,
+	Tween.TRANS_SINE,
+	Tween.EASE_IN_OUT,
+	3.5
 	)
 
 	tween.interpolate_property(
-		updown,
-		"translation",
-		updown_naik,
-		updown_turun,
-		0.5,
-		Tween.TRANS_SINE,
-		Tween.EASE_IN_OUT,
-		3.5
+	updown,
+	"translation",
+	updown_naik,
+	updown_turun,
+	0.5,
+	Tween.TRANS_SINE,
+	Tween.EASE_IN_OUT,
+	3.5
 	)
 
 	tween.interpolate_property(
-		alas1,
-		"translation",
-		alas_kanan1,
-		alas_turun1,
-		0.5,
-		Tween.TRANS_SINE,
-		Tween.EASE_IN_OUT,
-		3.5
+	alas1,
+	"translation",
+	alas_kanan1,
+	alas_turun1,
+	0.5,
+	Tween.TRANS_SINE,
+	Tween.EASE_IN_OUT,
+	3.5
 	)
-	
+
 	tween.interpolate_property(
-		mobil1,
-		"translation",
-		mobil_kanan1,
-		mobil_turun1,
-		0.5,
-		Tween.TRANS_SINE,
-		Tween.EASE_IN_OUT,
-		3.5
+	mobil1,
+	"translation",
+	mobil_kanan1,
+	mobil_turun1,
+	0.5,
+	Tween.TRANS_SINE,
+	Tween.EASE_IN_OUT,
+	3.5
 	)
-	
-	
-		# =========================
+
+
+	# =========================
 	# 5. TURUN PENUH
 	# =========================
 	tween.interpolate_property(
-		servo,
-		"translation",
-		servo_turun,
-		servo_turunpenuh,
-		2,
-		Tween.TRANS_SINE,
-		Tween.EASE_IN_OUT,
-		4
+	servo,
+	"translation",
+	servo_turun,
+	servo_turunpenuh,
+	2,
+	Tween.TRANS_SINE,
+	Tween.EASE_IN_OUT,
+	4
 	)
-	
+
 	tween.interpolate_property(
-		updown,
-		"translation",
-		updown_turun,
-		updown_turunpenuh,
-		2,
-		Tween.TRANS_SINE,
-		Tween.EASE_IN_OUT,
-		4
+	updown,
+	"translation",
+	updown_turun,
+	updown_turunpenuh,
+	2,
+	Tween.TRANS_SINE,
+	Tween.EASE_IN_OUT,
+	4
 	)
-	
+
 	tween.interpolate_property(
-		alas1,
-		"translation",
-		alas_turun1,
-		alas_turunpenuh1,
-		2,
-		Tween.TRANS_SINE,
-		Tween.EASE_IN_OUT,
-		4
+	alas1,
+	"translation",
+	alas_turun1,
+	alas_turunpenuh1,
+	2,
+	Tween.TRANS_SINE,
+	Tween.EASE_IN_OUT,
+	4
 	)
-	
+
 	tween.interpolate_property(
-		mobil1,
-		"translation",
-		mobil_turun1,
-		mobil_turunpenuh1,
-		2,
-		Tween.TRANS_SINE,
-		Tween.EASE_IN_OUT,
-		4
+	mobil1,
+	"translation",
+	mobil_turun1,
+	mobil_turunpenuh1,
+	2,
+	Tween.TRANS_SINE,
+	Tween.EASE_IN_OUT,
+	4
 	)
-	
+
 	tween.interpolate_property(
-		alas1,
-		"translation",
-		alas_turunpenuh1,
-		alas_keluar1,
-		1,
-		Tween.TRANS_SINE,
-		Tween.EASE_IN_OUT,
-		6
-		)
-		
+	alas1,
+	"translation",
+	alas_turunpenuh1,
+	alas_keluar1,
+	1,
+	Tween.TRANS_SINE,
+	Tween.EASE_IN_OUT,
+	6
+	)
+
 	tween.interpolate_property(
-		mobil1,
-		"translation",
-		mobil_turunpenuh1,
-		mobil_keluar1,
-		1,
-		Tween.TRANS_SINE,
-		Tween.EASE_IN_OUT,
-		6
-		)
-	
-	
-	
+	mobil1,
+	"translation",
+	mobil_turunpenuh1,
+	mobil_keluar1,
+	1,
+	Tween.TRANS_SINE,
+	Tween.EASE_IN_OUT,
+	6
+	)
+
+
+
 	tween.start()
 
 	yield(tween, "tween_all_completed")
@@ -317,7 +326,10 @@ func _on_Button_pressed():
 
 
 
-func _on_PushPlate_pressed():
+
+
+
+func _on_ReturnPlate_pressed():
 	if busy:
 		return
 
@@ -325,23 +337,88 @@ func _on_PushPlate_pressed():
 
 	var tween = Tween.new()
 	add_child(tween)
-	
+
+# =========================
+# 1. Alas Keluar
+# =========================
+
+	tween.interpolate_property(
+	alas1,
+	"translation",
+	alas_keluar1,
+	alas_masuk1,
+	1,
+	Tween.TRANS_SINE,
+	Tween.EASE_IN_OUT,
+	0
+	)
+
 	# =========================
-	# 1. Alas Keluar
+	# 2. Naik Ke Spot
 	# =========================
+	tween.interpolate_property(
+	alas1,
+	"translation",
+	alas_masuk1,
+	alas_naikpenuh1,
+	1.5,
+	Tween.TRANS_SINE,
+	Tween.EASE_IN_OUT,
+	1
+	)
 	
 	tween.interpolate_property(
-		alas1,
-		"translation",
-		alas_keluar1,
-		alas_masuk1,
-		1,
-		Tween.TRANS_SINE,
-		Tween.EASE_IN_OUT,
-		0
-		)
-		
+	servo,
+	"translation",
+	servo_turunpenuh,
+	servo_naikpenuh,
+	1.5,
+	Tween.TRANS_SINE,
+	Tween.EASE_IN_OUT,
+	1
+	)
 	
+	tween.interpolate_property(
+	updown,
+	"translation",
+	updown_turunpenuh,
+	updown_naikpenuh,
+	1.5,
+	Tween.TRANS_SINE,
+	Tween.EASE_IN_OUT,
+	1
+	)
+	
+	# =========================
+	# 3. KE KIRI
+	# =========================
+
+	tween.interpolate_property(
+	servo,
+	"translation",
+	servo_naikpenuh,
+	servo_kiri,
+	1.5,
+	Tween.TRANS_SINE,
+	Tween.EASE_IN_OUT,
+	2.5
+	)
+	
+	tween.interpolate_property(
+	alas1,
+	"translation",
+	alas_naikpenuh1,
+	alas_awal1,
+	1.5,
+	Tween.TRANS_SINE,
+	Tween.EASE_IN_OUT,
+	2.5
+	)
+
+
+
+
+
 	tween.start()
 	yield(tween, "tween_all_completed")
 	tween.queue_free()

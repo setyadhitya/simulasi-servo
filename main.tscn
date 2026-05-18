@@ -35,12 +35,12 @@ margin_right = 171.0
 margin_bottom = 21.0
 text = "Pull Car"
 
-[node name="PushPlate" type="Button" parent="CanvasLayer"]
+[node name="ReturnPlate" type="Button" parent="CanvasLayer"]
 margin_left = 180.0
 margin_top = 1.0
 margin_right = 278.0
 margin_bottom = 21.0
-text = "Bring Plate In"
+text = "Return PlateA"
 
 [node name="Objek" type="Spatial" parent="."]
 
@@ -80,4 +80,4 @@ mesh = ExtResource( 8 )
 skeleton = NodePath("../..")
 
 [connection signal="pressed" from="CanvasLayer/SpotA" to="." method="_on_Button_pressed"]
-[connection signal="pressed" from="CanvasLayer/PushPlate" to="." method="_on_PushPlate_pressed"]
+[connection signal="pressed" from="CanvasLayer/ReturnPlate" to="." method="_on_ReturnPlate_pressed"]
