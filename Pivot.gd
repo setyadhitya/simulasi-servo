@@ -1,73 +1,106 @@
-extends Spatial
+extends Camera
 
-onready var cam = $Camera
+export var zoom_speed = 1.5
+export var rotate_speed = 0.01
+export var pan_speed = 0.06
 
-var rotate_sens = 0.3
-var zoom_speed = 2.0
-var pan_speed = 0.02
+var rotating = false
+var panning = false
 
-var is_rotating = false
-var is_panning = false
+var pivot = Vector3.ZERO
+
+onready var pivot_node = get_parent()
 
 
-func _input(event):
+func _unhandled_input(event):
 
-	# ====================================
+	# =================================
 	# MOUSE BUTTON
-	# ====================================
+	# =================================
 	if event is InputEventMouseButton:
 
-		# =========================
-		# MIDDLE CLICK
-		# =========================
 		if event.button_index == BUTTON_MIDDLE:
 
 			if event.pressed:
 
 				# SHIFT + MIDDLE = PAN
 				if Input.is_key_pressed(KEY_SHIFT):
-					is_panning = true
+					panning = true
+					rotating = false
+
+				# MIDDLE ONLY = ROTATE
 				else:
-					is_rotating = true
+					rotating = true
+					panning = false
+
+					update_pivot(event.position)
 
 			else:
+				rotating = false
+				panning = false
 
-				is_rotating = false
-				is_panning = false
 
-
-		# =========================
+		# =================================
 		# ZOOM
-		# =========================
-		if event.pressed:
+		# =================================
+		if event.button_index == BUTTON_WHEEL_UP:
+			translate_object_local(Vector3(0,0,-zoom_speed))
 
-			# zoom in
-			if event.button_index == BUTTON_WHEEL_UP:
-				cam.translate(Vector3(0, 0, -zoom_speed))
-
-			# zoom out
-			if event.button_index == BUTTON_WHEEL_DOWN:
-				cam.translate(Vector3(0, 0, zoom_speed))
+		if event.button_index == BUTTON_WHEEL_DOWN:
+			translate_object_local(Vector3(0,0,zoom_speed))
 
 
-	# ====================================
-	# MOUSE DRAG
-	# ====================================
+
+	# =================================
+	# MOUSE MOVE
+	# =================================
 	if event is InputEventMouseMotion:
 
-		# =========================
+		var delta = event.relative
+
+
+		# =================================
 		# ROTATE
-		# =========================
-		if is_rotating:
+		# =================================
+		if rotating:
 
-			rotation_degrees.y -= event.relative.x * rotate_sens
-			rotation_degrees.x -= event.relative.y * rotate_sens
+			# ROTATE HORIZONTAL
+			pivot_node.rotate_y(-delta.x * rotate_speed)
+
+			# ROTATE VERTICAL
+			pivot_node.rotate_object_local(
+				transform.basis.x.normalized(),
+				-delta.y * rotate_speed
+			)
 
 
-		# =========================
+
+		# =================================
 		# PAN
-		# =========================
-		if is_panning:
+		# =================================
+		elif panning:
 
-			translation += -transform.basis.x * event.relative.x * pan_speed
-			translation += transform.basis.y * event.relative.y * pan_speed
+			var move = (
+				-transform.basis.x * delta.x +
+				transform.basis.y * delta.y
+			) * pan_speed
+
+			pivot_node.translate(move)
+
+
+
+# =================================
+# UPDATE PIVOT
+# =================================
+func update_pivot(mouse_pos):
+
+	var space_state = get_world().direct_space_state
+
+	var from = project_ray_origin(mouse_pos)
+	var to = from + project_ray_normal(mouse_pos) * 1000
+
+	var result = space_state.intersect_ray(from, to)
+
+	if result:
+		pivot = result.position
+		pivot_node.global_transform.origin = pivot
