@@ -4,33 +4,36 @@ onready var servo = $Objek/servolengan
 onready var updown = $Objek/updown
 
 var busy = false
-
+var alas_awal_pos = {}
 var servo_awal
 var updown_awal
 
 var current_plate = -1
 
 var alas = {}
-
+var servo_tengah_bawah = servo_awal
+var updown_tengah_bawah = updown_awal
 # =====================================================
 # DATA SPOT
 # =====================================================
 
 var spot_data = {
-	1: {"z": -11, "extra": 0},
-	2: {"z": 11, "extra": 0},
+	1: {"z": -11, "extra": 0},   # lantai 1 kiri
+	2: {"z": 11, "extra": 0},    # lantai 1 kanan
 
-	3: {"z": -11, "extra": 6},
-	4: {"z": 11, "extra": 6},
-
-	5: {"z": -11, "extra": 12},
-	6: {"z": 11, "extra": 12},
-
-	7: {"z": -11, "extra": 18},
-	8: {"z": 11, "extra": 18},
-
-	9: {"z": -11, "extra": 24},
-	10: {"z": 11, "extra": 24},
+	3: {"z": -11, "extra": 6},   # lantai 2 kiri
+	4: {"z": 11, "extra": 6},    # lantai 2 kanan
+	
+	5: {"z": -11, "extra": 12},   # lantai 2 kiri
+	6: {"z": 11, "extra": 12},    # lantai 2 kanan
+	
+	7: {"z": -11, "extra": 18},   # lantai 2 kiri
+	8: {"z": 11, "extra": 18},    # lantai 2 kanan
+	
+	9: {"z": -11, "extra": 24},   # lantai 2 kiri
+	10: {"z": 11, "extra": 24},    # lantai 2 kanan
+	
+	
 }
 
 
@@ -41,8 +44,22 @@ func _ready():
 
 	for i in range(1, 11):
 		alas[i] = get_node("Objek/alasmobil" + str(i))
+		alas_awal_pos[i] = alas[i].translation
+		
+		
+func reset_semua():
 
+	if busy:
+		return
 
+	servo.translation = servo_awal
+	updown.translation = updown_awal
+
+	for i in alas.keys():
+		alas[i].translation = alas_awal_pos[i]
+
+	current_plate = -1
+	busy = false
 # =====================================================
 # AMBIL MOBIL
 # =====================================================
@@ -80,7 +97,7 @@ func move_to_plate(index):
 
 	# STEP 2
 	var servo_naik = servo_samping + Vector3(0, 0.3, 0)
-	var updown_naik = updown_awal + Vector3(0, 0.3, 0)
+	var updown_naik = updown_lantai + Vector3(0, 0.3, 0)
 	var alas_naik = alas_awal + Vector3(0, 0.3, 0)
 
 	# STEP 3
@@ -326,45 +343,50 @@ func return_plate(index):
 	var extra = spot_data[index]["extra"]
 
 	var alas_awal = plate.translation
-	# naik lift sesuai lantai
+
+	# =================================================
+	# POSISI DASAR LANTAI
+	# =================================================
+
 	var servo_lantai = servo_awal + Vector3(0, extra, 0)
 	var updown_lantai = updown_awal + Vector3(0, extra, 0)
+
 	# =================================================
-	# STEP 1
+	# STEP 1 — MASUK KE DALAM
 	# =================================================
 
 	var alas_masuk = alas_awal + Vector3(14, 0, 0)
 
 	# =================================================
-	# STEP 2
+	# STEP 2 — NAIK
 	# =================================================
 
-	var naik_y = 14.3 - extra
-
-	var servo_naik = servo_awal + Vector3(0, naik_y, 0)
-	var updown_naik = updown_awal + Vector3(0, naik_y, 0)
-	var alas_naik = alas_masuk + Vector3(0, naik_y, 0)
+	var servo_naik = servo_awal + Vector3(0, 0.3 + extra, 0)
+	var updown_naik = updown_awal + Vector3(0, 0.3 + extra, 0)
+	var alas_naik = alas_masuk + Vector3(0, 14 + extra + 0.3, 0)
 
 	# =================================================
-	# STEP 3
+	# STEP 3 — GESER KE SPOT
 	# =================================================
 
 	var servo_spot = servo_naik + Vector3(0, 0, arah_z)
 	var alas_spot = alas_naik + Vector3(0, 0, arah_z)
 
 	# =================================================
-	# STEP 4
+	# STEP 4 — TURUN 0.3
 	# =================================================
 
 	var servo_turun = servo_spot + Vector3(0, -0.3, 0)
+	var servo_tengah = servo_turun + Vector3(0, 0, -arah_z)
 	var updown_turun = updown_naik + Vector3(0, -0.3, 0)
 	var alas_turun = alas_spot + Vector3(0, -0.3, 0)
 
 	# =================================================
-	# STEP 5
+	# STEP 5 — BALIK KE TENGAH
 	# =================================================
 
-	var servo_balik = servo_turun + Vector3(0, 0, -arah_z)
+	var servo_balik = servo_awal
+	var updown_balik = updown_awal
 
 	# =================================================
 	# STEP 1 — MASUK
@@ -486,14 +508,40 @@ func return_plate(index):
 	# =================================================
 
 	tween.interpolate_property(
-		servo,
-		"translation",
-		servo_turun,
-		servo_balik,
-		1,
-		Tween.TRANS_SINE,
-		Tween.EASE_IN_OUT,
-		5
+	servo,
+	"translation",
+	servo_turun,
+	servo_tengah,
+	1,
+	Tween.TRANS_SINE,
+	Tween.EASE_IN_OUT,
+	5
+	)
+
+# =================================================
+# STEP 6 — TURUN KE POSISI AWAL
+# =================================================
+
+	tween.interpolate_property(
+	servo,
+	"translation",
+	servo_tengah,
+	servo_balik,
+	1.5,
+	Tween.TRANS_SINE,
+	Tween.EASE_IN_OUT,
+	6
+	)
+
+	tween.interpolate_property(
+	updown,
+	"translation",
+	updown_turun,
+	updown_balik,
+	1.5,
+	Tween.TRANS_SINE,
+	Tween.EASE_IN_OUT,
+	6
 	)
 
 	tween.start()
@@ -574,3 +622,7 @@ func _on_ReturnPlateI_pressed():
 
 func _on_ReturnPlateJ_pressed():
 	return_plate(10)
+
+
+func _on_Resr_pressed():
+	reset_semua()

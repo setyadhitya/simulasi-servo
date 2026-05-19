@@ -172,6 +172,13 @@ margin_right = 265.0
 margin_bottom = 100.0
 text = "Return Plate J"
 
+[node name="Resr" type="Button" parent="CanvasLayer"]
+margin_left = 130.0
+margin_top = 55.0
+margin_right = 157.0
+margin_bottom = 354.0
+text = "rst"
+
 [node name="Objek" type="Spatial" parent="."]
 
 [node name="box" type="MeshInstance" parent="Objek"]
@@ -250,42 +257,42 @@ mesh = ExtResource( 6 )
 skeleton = NodePath("../..")
 
 [node name="lockalas7" type="MeshInstance" parent="Objek"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.6272, 1.47, 16.3677 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.6272, 0.53, 16.3677 )
 mesh = ExtResource( 7 )
 skeleton = NodePath("../..")
 
 [node name="lockalas8" type="MeshInstance" parent="Objek"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, -1, -12.6272, 1.47, -16.368 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, -1, -12.6272, 0.53, -16.368 )
 mesh = ExtResource( 7 )
 skeleton = NodePath("../..")
 
 [node name="alasmobil7" type="MeshInstance" parent="Objek"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.6272, 1.47, 16.3677 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.6272, 0.53, 16.3677 )
 mesh = ExtResource( 6 )
 skeleton = NodePath("../..")
 
 [node name="alasmobil8" type="MeshInstance" parent="Objek"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, -1, -12.6272, 1.47, -16.368 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, -1, -12.6272, 0.53, -16.368 )
 mesh = ExtResource( 6 )
 skeleton = NodePath("../..")
 
 [node name="lockalas9" type="MeshInstance" parent="Objek"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.6272, 7.47, 16.3677 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.6272, 6.53, 16.3677 )
 mesh = ExtResource( 7 )
 skeleton = NodePath("../..")
 
 [node name="lockalas10" type="MeshInstance" parent="Objek"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, -1, -12.6272, 7.47, -16.368 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, -1, -12.6272, 6.53, -16.368 )
 mesh = ExtResource( 7 )
 skeleton = NodePath("../..")
 
 [node name="alasmobil9" type="MeshInstance" parent="Objek"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.6272, 7.47, 16.3677 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.6272, 6.53, 16.3677 )
 mesh = ExtResource( 6 )
 skeleton = NodePath("../..")
 
 [node name="alasmobil10" type="MeshInstance" parent="Objek"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, -1, -12.6272, 7.47, -16.368 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, -1, -12.6272, 6.53, -16.368 )
 mesh = ExtResource( 6 )
 skeleton = NodePath("../..")
 
@@ -324,3 +331,4 @@ skeleton = NodePath("../..")
 [connection signal="pressed" from="CanvasLayer/ReturnPlateH" to="." method="_on_ReturnPlateH_pressed"]
 [connection signal="pressed" from="CanvasLayer/ReturnPlateI" to="." method="_on_ReturnPlateI_pressed"]
 [connection signal="pressed" from="CanvasLayer/ReturnPlateJ" to="." method="_on_ReturnPlateJ_pressed"]
+[connection signal="pressed" from="CanvasLayer/Resr" to="." method="_on_Resr_pressed"]
